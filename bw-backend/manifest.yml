@@ -6,3 +6,13 @@ models:
       url: string
       thumbnail: string
       playcount: integer
+      tags:
+        collection: 'tag'
+        via: 'videos'
+        dominant: true
+  tag:
+    attributes:
+      name: string
+      videos:
+        collection: video
+        via: 'tags'

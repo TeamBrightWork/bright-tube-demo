@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'angularFileUpload',
     'com.2fdevs.videogular',
     'com.2fdevs.videogular.plugins.overlayplay',
     'com.2fdevs.videogular.plugins.controls',
@@ -28,18 +29,18 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main',
+        controller: 'VideoCtrl',
+        controllerAs: 'player',
         resolve: {
           '$bw' : ['$bw', function($bw) {
             return $bw.init();
           }]
         }
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/upload', {
+        templateUrl: 'views/upload.html',
+        controller: 'UploadCtrl',
+        controllerAs: 'upload'
       })
       .otherwise({
         redirectTo: '/'

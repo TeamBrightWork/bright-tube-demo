@@ -8,7 +8,7 @@
  * Controller of the bwTubeDemoApp
  */
 angular.module('bwTubeDemoApp')
-  .controller('MainCtrl', ['$scope', '$sce', '$timeout', function ($scope, $sce, $timeout) {
+  .controller('VideoCtrl', ['$scope', '$sce', '$timeout', '$bw', function ($scope, $sce, $timeout, $bw) {
 
     var controller = this;
     controller.state = null;
@@ -67,9 +67,13 @@ angular.module('bwTubeDemoApp')
     };
 
     controller.getVideos = function() {
-      $bw.models.video.get().then(function(videos) {
+      $bw.models.video.find().then(function(videos) {
+        console.log(videos);
         //filter through each video and add as source to controller.videos
         $scope.$apply();
       });
     };
+
+    controller.getVideos();
+
   }]);

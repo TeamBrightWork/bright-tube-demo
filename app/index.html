@@ -29,6 +29,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
 
             <a class="navbar-brand" href="#/">BrightTube</a>
@@ -38,7 +39,7 @@
 
             <ul class="nav navbar-nav">
               <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
+              <li><a ng-href="#/upload">Upload</a></li>
             </ul>
           </div>
         </div>
@@ -86,13 +87,14 @@
     <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
     <script src="bower_components/bw-angular-sdk/dist/index.js"></script>
     <script src="bower_components/bw-js-sdk/dist/index.js"></script>
+    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/upload.js"></script>
         <!-- endbuild -->
 </body>
 </html>
