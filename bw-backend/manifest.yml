@@ -1,0 +1,8 @@
+name: BrightTube
+models:
+  video:
+    attributes:
+      name: string
+      url: string
+      thumbnail: string
+      playcount: integer

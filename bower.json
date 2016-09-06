@@ -16,7 +16,9 @@
     "videogular-controls": "^1.4.4",
     "videogular-poster": "^1.4.4",
     "videogular-overlay-play": "^1.4.4",
-    "videogular-buffering": "^1.4.4"
+    "videogular-buffering": "^1.4.4",
+    "bw-angular-sdk": "^1.0.0",
+    "bw-js-sdk": "^0.0.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

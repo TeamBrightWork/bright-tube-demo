@@ -66,4 +66,10 @@ angular.module('bwTubeDemoApp')
       $timeout(controller.API.play.bind(controller.API), 100);
     };
 
+    controller.getVideos = function() {
+      $bw.models.video.get().then(function(videos) {
+        //filter through each video and add as source to controller.videos
+        $scope.$apply();
+      });
+    };
   }]);
