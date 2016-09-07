@@ -19,7 +19,7 @@ angular.module('bwTubeDemoApp')
     $scope.uploaded = false;
 
     var headers = {
-      // TODO: Add object Storage Headers
+      apikey: '51553aaae4b340db9facd6717590570d'
     };
 
     var uploader = $scope.uploader = new FileUploader({

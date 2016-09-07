@@ -28,6 +28,7 @@ angular.module('bwTubeDemoApp')
       if (controller.currentVideo >= controller.videos.length) controller.currentVideo = 0;
 
       controller.setVideo(controller.currentVideo);
+      $scope.videos.shift();
     };
 
     controller.getVideos = function() {

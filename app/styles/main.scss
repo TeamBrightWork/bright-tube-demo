@@ -89,3 +89,14 @@ body {
     border-bottom: 0;
   }
 }
+
+.navbar {
+  background-color: darkslategray;
+  img {
+    height: 30px;
+  }
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
