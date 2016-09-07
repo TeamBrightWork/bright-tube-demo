@@ -19,11 +19,12 @@ angular.module('bwTubeDemoApp')
     $scope.uploaded = false;
 
     var headers = {
-      apikey: '51553aaae4b340db9facd6717590570d'
+      apikey: '51553aaae4b340db9facd6717590570d',
+      content-type: ''
     };
 
     var uploader = $scope.uploader = new FileUploader({
-      url: 'http://brighttube.bwapps.io/api/storage',
+      url: 'http://brighttube.bwapps.io/api/brighttube/storage',
       // alias: 'file',
       headers: headers,
       // queue: [],
