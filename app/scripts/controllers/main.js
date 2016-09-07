@@ -14,6 +14,7 @@ angular.module('bwTubeDemoApp')
     controller.state = null;
     controller.API = null;
     controller.currentVideo = 0;
+    controller.videos = [];
 
     controller.onPlayerReady = function(API) {
       controller.API = API;
@@ -24,69 +25,81 @@ angular.module('bwTubeDemoApp')
 
       controller.currentVideo++;
 
-      if (controller.currentVideo >= $scope.videos.length) controller.currentVideo = 0;
+      if (controller.currentVideo >= controller.videos.length) controller.currentVideo = 0;
 
       controller.setVideo(controller.currentVideo);
     };
 
     controller.getVideos = function() {
-
-      // TODO: Get Video Data from DB
-
-      // $bw.models.video.find().then(function(videos) {
-      //   console.log(videos);
-      //   //filter through each video and add as source to controller.videos
-      //   $scope.$apply();
-      // });
+      var videosFromDB;
 
       // FAKE VIDEO DATA
-      var videosFromDB = [
-        {
-          url: "http://static.videogular.com/assets/videos/videogular.mp4",
-          type: "video/mp4",
-          name: "Pale Blue Dot"
-        },
-        {
-          url: "http://static.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov",
-          type: "video/mp4",
-          name: "Big Buck Bunny"
-        }
-      ];
+      // var videosFromDB = [
+      //   {
+      //     url: "http://static.videogular.com/assets/videos/videogular.mp4",
+      //     type: "video/mp4",
+      //     name: "Pale Blue Dot"
+      //   },
+      //   {
+      //     url: "http://static.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov",
+      //     type: "video/mp4",
+      //     name: "Big Buck Bunny"
+      //   }
+      // ];
 
-      $scope.videos = [];
+      // videosFromDB.forEach(function (video) {
+      //   $bw.models.video.create(video).then(function(video) {
+      //     console.log('CREATED', video);
+      //     //filter through each video and add as source to controller.videos
+      //   });
+      // });
 
-      videosFromDB.forEach(function(video){
+      $bw.models.video.find().then(function(videos) {
+        console.log(videos);
 
-        video = {
-          sources:[
-            {src: $sce.trustAsResourceUrl(video.url), type: video.type, name: video.name},
-          ]
+        videosFromDB = videos;
+
+        controller.videos = [];
+
+        videosFromDB.forEach(function(video){
+
+          video = {
+            sources:[
+              {src: $sce.trustAsResourceUrl(video.url), type: video.type, name: video.name},
+            ]
+          };
+
+          controller.videos.push(video);
+
+        });
+        console.log(controller.videos);
+        $scope.videos = controller.videos;
+        $scope.$apply();
+
+        controller.config = {
+          preload: "none",
+          autoHide: false,
+          autoHideTime: 3000,
+          autoPlay: false,
+          sources: controller.videos[0].sources,
+          theme: {
+            url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+          },
+          plugins: {
+            poster: "http://www.videogular.com/assets/images/videogular.png"
+          }
         };
-
-        $scope.videos.push(video);
-      })
+      });
     };
 
     controller.getVideos();
 
-    controller.config = {
-      preload: "none",
-      autoHide: false,
-      autoHideTime: 3000,
-      autoPlay: false,
-      sources: $scope.videos[0].sources,
-      theme: {
-        url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
-      },
-      plugins: {
-        poster: "http://www.videogular.com/assets/images/videogular.png"
-      }
-    };
+
 
     controller.setVideo = function(index) {
       controller.API.stop();
       controller.currentVideo = index;
-      controller.config.sources = $scope.videos[index].sources;
+      controller.config.sources = controller.videos[index].sources;
       $timeout(controller.API.play.bind(controller.API), 100);
     };
 

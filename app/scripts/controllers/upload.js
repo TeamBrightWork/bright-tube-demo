@@ -23,7 +23,7 @@ angular.module('bwTubeDemoApp')
     };
 
     var uploader = $scope.uploader = new FileUploader({
-      url: '/',
+      url: 'http://brighttube.bwapps.io/api/storage',
       // alias: 'file',
       headers: headers,
       // queue: [],

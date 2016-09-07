@@ -40,7 +40,12 @@ angular
       .when('/upload', {
         templateUrl: 'views/upload.html',
         controller: 'UploadCtrl',
-        controllerAs: 'upload'
+        controllerAs: 'UploadCtrl',
+        resolve: {
+          '$bw' : ['$bw', function($bw) {
+            return $bw.init();
+          }]
+        }
       })
       .otherwise({
         redirectTo: '/'
