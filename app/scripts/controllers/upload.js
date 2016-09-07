@@ -20,7 +20,7 @@ angular.module('bwTubeDemoApp')
 
     var headers = {
       apikey: '51553aaae4b340db9facd6717590570d',
-      content-type: ''
+      'Content-Type': ''
     };
 
     var uploader = $scope.uploader = new FileUploader({
