@@ -4,8 +4,7 @@ models:
     attributes:
       name: string
       url: string
-      thumbnail: string
-      playcount: integer
+      type: string
       tags:
         collection: 'tag'
         via: 'videos'
