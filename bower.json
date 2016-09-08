@@ -18,7 +18,7 @@
     "videogular-overlay-play": "^1.4.4",
     "videogular-buffering": "^1.4.4",
     "bw-angular-sdk": "^1.0.0",
-    "bw-js-sdk": "^0.0.2",
+    "bw-js-sdk": "~0.0.2",
     "angular-file-upload": "^2.3.4"
   },
   "devDependencies": {

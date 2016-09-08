@@ -24,6 +24,12 @@ angular
     'com.2fdevs.videogular.plugins.buffering',
     'brightwork'
   ])
+  .constant('$apiConfig', {
+    apiKey: '1970e53aad964fe3bba3b3d3b1b7c3c7',
+    appName:'brighttube',
+    apiUrl: 'http://api.brightwork.dev',
+    appUrl: 'http://brighttube.brightwork.dev:8000'
+  })
   .config(function ($routeProvider) {
 
     $routeProvider
@@ -52,8 +58,10 @@ angular
       });
 
   })
-  .config(['$bwProvider', function($bw){
-    $bw.apiKey('51553aaae4b340db9facd6717590570d');
-    $bw.appName('brighttube');
+  .config(['$bwProvider', '$apiConfig', function($bw, $apiConfig){
+    $bw.apiKey($apiConfig.apiKey);
+    $bw.appName($apiConfig.appName);
+    $bw.apiUrl($apiConfig.apiUrl);
+    $bw.appUrl($apiConfig.appUrl);
   }]);
 

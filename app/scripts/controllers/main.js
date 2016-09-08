@@ -8,7 +8,7 @@
  * Controller of the bwTubeDemoApp
  */
 angular.module('bwTubeDemoApp')
-  .controller('VideoCtrl', ['$scope', '$sce', '$timeout', '$bw', function ($scope, $sce, $timeout, $bw) {
+  .controller('VideoCtrl', ['$scope', '$sce', '$timeout', '$bw', '$apiConfig' , function ($scope, $sce, $timeout, $bw, $apiConfig) {
 
     var controller = this;
     controller.state = null;
@@ -48,13 +48,6 @@ angular.module('bwTubeDemoApp')
       //   }
       // ];
 
-      // videosFromDB.forEach(function (video) {
-      //   $bw.models.video.create(video).then(function(video) {
-      //     console.log('CREATED', video);
-      //     //filter through each video and add as source to controller.videos
-      //   });
-      // });
-
       $bw.models.video.find().then(function(videos) {
         console.log(videos);
 
@@ -66,7 +59,7 @@ angular.module('bwTubeDemoApp')
 
           video = {
             sources:[
-              {src: $sce.trustAsResourceUrl(video.url), type: video.type, name: video.name},
+              {src: $sce.trustAsResourceUrl(video.url + '?apikey=' + $apiConfig.apiKey), type: video.type, name: video.name},
             ]
           };
 
@@ -85,17 +78,12 @@ angular.module('bwTubeDemoApp')
           sources: controller.videos[0].sources,
           theme: {
             url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
-          },
-          plugins: {
-            poster: "http://www.videogular.com/assets/images/videogular.png"
           }
         };
       });
     };
 
     controller.getVideos();
-
-
 
     controller.setVideo = function(index) {
       controller.API.stop();

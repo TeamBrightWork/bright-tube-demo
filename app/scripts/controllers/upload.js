@@ -8,7 +8,7 @@
  * Controller of the bwTubeDemoApp
  */
 angular.module('bwTubeDemoApp')
-  .controller('UploadCtrl', ['$scope', 'FileUploader', '$bw', '$sce', function ($scope, FileUploader, $bw, $sce) {
+  .controller('UploadCtrl', ['$scope', 'FileUploader', '$bw', '$sce', '$apiConfig', function ($scope, FileUploader, $bw, $sce, $apiConfig) {
 
     $scope.tags = [];
     var uploaded = {};
@@ -18,24 +18,16 @@ angular.module('bwTubeDemoApp')
     $scope.uploaded = false;
 
     var headers = {
-      apikey: '51553aaae4b340db9facd6717590570d',
-      'Content-Type': ''
+      apikey: $apiConfig.apiKey,
+      name: ''
     };
 
     var uploader = $scope.uploader = new FileUploader({
-      url: 'http://brighttube.bwapps.io/api/brighttube/storage',
-      // alias: 'file',
+      url: $apiConfig.appUrl + '/api/brighttube/storage',
+      alias: 'object',
       headers: headers,
-      // queue: [],
-      // progress: 0,
-      // autoUpload: false,
-      removeAfterUpload: true,
+      removeAfterUpload: false,
       method: 'POST',
-      // filters: [],
-      // formData: [],
-      // queueLimit: Number.MAX_VALUE,
-      // withCredentials: false,
-      // disableMultipart: false
       autoUpload: true
     });
 
@@ -47,28 +39,25 @@ angular.module('bwTubeDemoApp')
 
       console.log(videoData);
 
-      // return $bw.models.video.create(videoData).then(function(newVideo){
-      //   console.log('VIDEO Added to DB: ', newVideo);
-      //
-      //   return newVideo;
-      // });
+      //TODO: enable saving video
+       return $bw.models.video.create(videoData).then(function(newVideo){
+         console.log('VIDEO Added to DB: ', newVideo);
+
+         return newVideo;
+       });
 
     };
 
     $scope.addTag = function(){
 
-      var tag = {
-        name: $scope.tag
-      };
 
-      // TODO: Store tag data in DB using uploadedVideoID
-
-      // $bw.models.video.tag.add(uploaded.id, tag).then(function(newTag){
-      //   console.log('TAG Added to DB: ', newTag);
-      //   tag.id = newTag.id;
-          $scope.tags.push(tag);
-          $scope.tag = '';
-      // });
+       // TODO: Store tag data in DB using uploadedVideoID
+       $bw.models.video.tags.add(uploaded.id, { name: $scope.tag }).then(function(updatedVideo){
+         console.log('TAG Added to DB: ', updatedVideo);
+         $scope.tags = updatedVideo.tags;
+         $scope.tag = '';
+         $scope.$apply();
+       });
 
 
     };
@@ -84,24 +73,19 @@ angular.module('bwTubeDemoApp')
 
           // TODO: Remove tag data from DB
 
-          // $bw.models.video.tag.remove(uploaded.id, tag.id).then(function(newTag){
-          //   console.log('TAG Added to DB: ', newTag);
-          // });
+           $bw.models.video.tags.remove(uploaded.id, tag.id).then(function(newTag){
+             console.log('TAG Added to DB: ', newTag);
+           });
 
           $scope.tags.splice(idx, 1);
         }
       });
     };
 
-    // CALLBACKS
-
-    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-      console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-
-    uploader.onAfterAddingFile = function(fileItem) {
-      console.info('onAfterAddingFile', fileItem);
-      $scope.fileAdded = fileItem;
+    uploader.onAfterAddingFile = function(item) {
+      console.info('onAfterAddingFile', item);
+      $scope.fileAdded = item;
+      item.headers.name = item.file.name;
     };
 
     uploader.onBeforeUploadItem = function(item) {
@@ -113,9 +97,9 @@ angular.module('bwTubeDemoApp')
       console.info('onSuccessItem', fileItem, response, status, headers);
 
       var videoData = {
-        url: response.url,
+        url: $apiConfig.appUrl + '/api/brighttube/storage/' + response.name,
         name: response.name,
-        type: response.type
+        type: fileItem.file.type
       };
 
       saveVideoData(videoData).then(function(newVideo){
@@ -124,7 +108,7 @@ angular.module('bwTubeDemoApp')
       });
 
       $scope.isUploading = false;
-      $scope.uploaded = $sce.trustAsResourceUrl(response.url);
+      $scope.uploaded = $sce.trustAsResourceUrl(videoData.url + "?apikey=" + $apiConfig.apiKey);
 
     };
 
@@ -135,11 +119,5 @@ angular.module('bwTubeDemoApp')
       $scope.isUploading = false;
       $scope.uploaded = $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4");
     };
-
-    uploader.onCompleteItem = function(fileItem, response, status, headers) {
-      console.info('onCompleteItem', fileItem, response, status, headers);
-    };
-
-    console.info('uploader', uploader);
 
   }]);
