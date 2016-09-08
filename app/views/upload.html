@@ -1,5 +1,5 @@
 <div class="container">
-<div class="row" nv-file-drop="" uploader="uploader">
+<div class="row" nv-file-drop="" uploader="uploader" options="{ url: '/foo' }>
 
   <div ng-show="!fileAdded" class="col-md-12 text-center content-center">
 
@@ -55,7 +55,7 @@
     <div class="col-md-8">
       <h3>Tags to Add</h3>
       <div ng-repeat="tag in tags">
-        <a ng-click="removeTag()" class="col-md-3 btn btn-default glyphicon glyphicon-plus" name="{{tag}}"> {{tag}}</a>
+        <a ng-click="removeTag()" class="col-md-3 btn btn-default glyphicon glyphicon-plus" name="{{tag.name}}"> {{tag.name}}</a>
       </div>
     </div>
   </div>

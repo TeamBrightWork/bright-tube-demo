@@ -8,10 +8,12 @@ models:
       tags:
         collection: 'tag'
         via: 'videos'
-        dominant: true
   tag:
     attributes:
-      name: string
+      name:
+        type: string
+        unique: true
       videos:
         collection: video
         via: 'tags'
+        dominant: true

@@ -10,9 +10,8 @@
 angular.module('bwTubeDemoApp')
   .controller('UploadCtrl', ['$scope', 'FileUploader', '$bw', '$sce', function ($scope, FileUploader, $bw, $sce) {
 
-    var files = [];
     $scope.tags = [];
-    var uploadedVideoID;
+    var uploaded = {};
 
     $scope.fileAdded = false;
     $scope.isUploading = false;
@@ -46,39 +45,49 @@ angular.module('bwTubeDemoApp')
 
     var saveVideoData = function(videoData){
 
-      // TODO: Store Video data in DB
       console.log(videoData);
-      // return $bw.models.video.create(video).then(function(newVideo){
-      //   console.log(newVideo);
+
+      // return $bw.models.video.create(videoData).then(function(newVideo){
+      //   console.log('VIDEO Added to DB: ', newVideo);
       //
-      //   tags.forEach(function(tag){
-      //     $bw.models.tag.create(tag).then(function(newTag){
-      //       console.log(newTag);
-      //     });
-      //   });
-      //
-      //   return newVideo.id;
+      //   return newVideo;
       // });
 
-      return null;
     };
 
     $scope.addTag = function(){
 
+      var tag = {
+        name: $scope.tag
+      };
+
       // TODO: Store tag data in DB using uploadedVideoID
 
-      $scope.tags.push($scope.tag);
-      $scope.tag = '';
+      // $bw.models.video.tag.add(uploaded.id, tag).then(function(newTag){
+      //   console.log('TAG Added to DB: ', newTag);
+      //   tag.id = newTag.id;
+          $scope.tags.push(tag);
+          $scope.tag = '';
+      // });
+
+
     };
 
     $scope.removeTag = function(name){
       console.log('this',this.tag)
+
       var toRemove = this.tag;
 
-      // TODO: Remove tag data from DB
-
       $scope.tags.forEach(function(tag, idx){
-        if(tag === toRemove){
+        console.log(tag);
+        if(tag.name === toRemove.name){
+
+          // TODO: Remove tag data from DB
+
+          // $bw.models.video.tag.remove(uploaded.id, tag.id).then(function(newTag){
+          //   console.log('TAG Added to DB: ', newTag);
+          // });
+
           $scope.tags.splice(idx, 1);
         }
       });
@@ -102,7 +111,6 @@ angular.module('bwTubeDemoApp')
 
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
       console.info('onSuccessItem', fileItem, response, status, headers);
-      response.url
 
       var videoData = {
         url: response.url,
@@ -110,21 +118,22 @@ angular.module('bwTubeDemoApp')
         type: response.type
       };
 
-      saveVideoData(videoData).then(function(newVideoId){
-        console.log("Video Stored with Id: ", newVideoId);
-        uploadedVideoID = newVideoId;
+      saveVideoData(videoData).then(function(newVideo){
+        console.log("Video Stored with Id: ", newVideo);
+        uploaded.id = newVideo.id;
       });
 
       $scope.isUploading = false;
-      $scope.uploaded = true;
+      $scope.uploaded = $sce.trustAsResourceUrl(response.url);
 
     };
 
     uploader.onErrorItem = function(fileItem, response, status, headers) {
       console.info('onErrorItem', fileItem, response, status, headers);
+
       // TODO: remove on once wired up to object storage
       $scope.isUploading = false;
-      $scope.uploaded = $sce.trustAsResourceUrl('http://static.videogular.com/assets/videos/videogular.mp4');
+      $scope.uploaded = $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4");
     };
 
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
