@@ -42,22 +42,31 @@
 
   </div>
 
+  <!-- ng-show="uploaded" -->
   <div ng-show="uploaded" class="col-md-12">
 
-    <video style="width: 100%;" ng-src="{{uploaded}}" controls></video>
-
-    <form ng-submit="addTag()" class="col-md-4 form-group">
-      <h3>Add Tags</h3>
-      <input class="form-control" type="text" ng-model="tag"/>
-      <input class="form-control" value="Add Tag" type="submit"/>
-    </form>
-
-    <div class="col-md-8">
-      <h3>Tags to Add</h3>
-      <div ng-repeat="tag in tags">
-        <a ng-click="removeTag()" class="col-md-3 btn btn-default glyphicon glyphicon-plus" name="{{tag.name}}"> {{tag.name}}</a>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="pane-title">Preview & Tag</h3>
       </div>
-    </div>
+      <div class="panel-body">
+
+        <video style="width: 100%;" ng-src="{{uploaded}}" controls></video>
+
+        <form ng-submit="addTag()" class="col-md-4 form-group">
+          <h3>Add Tags</h3>
+          <input class="form-control" type="text" ng-model="tag"/>
+          <input class="form-control" value="Add Tag" type="submit"/>
+        </form>
+
+        <div class="col-md-8">
+          <h3>Tags to Add</h3>
+          <div ng-repeat="tag in tags">
+            <a ng-click="removeTag()" class="col-md-3 btn btn-default glyphicon glyphicon-plus" name="{{tag.name}}"> {{tag.name}}</a>
+          </div>
+        </div>
+
+      </div>
   </div>
 
 </div>

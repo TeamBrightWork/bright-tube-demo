@@ -9,40 +9,53 @@
             <!--Videogular Player-->
 
             <div class="col-md-10">
-              <videogular vg-player-ready="player.onPlayerReady($API)" vg-complete="player.onCompleteVideo()" vg-theme="controller.config.theme.url">
-                <vg-media vg-src="player.config.sources"
-                          vg-tracks="controller.config.tracks">
-                </vg-media>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="pane-title">Your watching - {{playing.name}}  <span class="pull-right label label-danger" ng-repeat="tag in playing.tags">{{tag}}</span></h3>
+                </div>
+                <div class="panel-body">
+                  <videogular vg-player-ready="player.onPlayerReady($API)" vg-complete="player.onCompleteVideo()" vg-theme="controller.config.theme.url">
+                    <vg-media vg-src="player.config.sources"
+                              vg-tracks="controller.config.tracks">
+                    </vg-media>
 
-                <vg-controls>
-                  <vg-play-pause-button></vg-play-pause-button>
-                  <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-                  <vg-scrub-bar>
-                    <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                  </vg-scrub-bar>
-                  <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
-                  <vg-volume>
-                    <vg-mute-button></vg-mute-button>
-                    <vg-volume-bar></vg-volume-bar>
-                  </vg-volume>
-                  <vg-fullscreen-button></vg-fullscreen-button>
-                </vg-controls>
+                    <vg-controls>
+                      <vg-play-pause-button></vg-play-pause-button>
+                      <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+                      <vg-scrub-bar>
+                        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                      </vg-scrub-bar>
+                      <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+                      <vg-volume>
+                        <vg-mute-button></vg-mute-button>
+                        <vg-volume-bar></vg-volume-bar>
+                      </vg-volume>
+                      <vg-fullscreen-button></vg-fullscreen-button>
+                    </vg-controls>
 
-                <vg-overlay-play></vg-overlay-play>
-                <vg-buffering></vg-buffering>
-                <vg-poster vg-url='player.config.plugins.poster'></vg-poster>
-              </videogular>
-
+                    <vg-overlay-play></vg-overlay-play>
+                    <vg-buffering></vg-buffering>
+                    <vg-poster vg-url='player.config.plugins.poster'></vg-poster>
+                  </videogular>
+                  </div>
+                </div>
             </div>
 
             <!--Video Playlist-->
 
             <div class="col-md-2 text-center">
-              <div ng-repeat="video in videos" class="playlist">
-                <a ng-click="player.setVideo($index)">
-                  <video style="width: 100%;" ng-src="{{video.sources[0].src}}"></video>
-                  {{video.sources[0].name}}
-                </a>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="pane-title">Up Next <span class="badge">{{videos.length}}</span></h3>
+                </div>
+                <div class="panel-body">
+                  <div ng-repeat="video in videos" class="playlist">
+                    <a ng-click="player.setVideo($index)">
+                      <video style="width: 100%;" ng-src="{{video.sources[0].src}}"></video>
+                      {{video.sources[0].name}}
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 

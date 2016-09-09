@@ -16,6 +16,8 @@ angular.module('bwTubeDemoApp')
     controller.currentVideo = 0;
     controller.videos = [];
 
+    $scope.playing = {}
+
     controller.onPlayerReady = function(API) {
       controller.API = API;
     };
@@ -32,38 +34,27 @@ angular.module('bwTubeDemoApp')
     };
 
     controller.getVideos = function() {
-      var videosFromDB;
 
-      // FAKE VIDEO DATA
-      // var videosFromDB = [
-      //   {
-      //     url: "http://static.videogular.com/assets/videos/videogular.mp4",
-      //     type: "video/mp4",
-      //     name: "Pale Blue Dot"
-      //   },
-      //   {
-      //     url: "http://static.videogular.com/assets/videos/big_buck_bunny_720p_h264.mov",
-      //     type: "video/mp4",
-      //     name: "Big Buck Bunny"
-      //   }
-      // ];
-
+      // TODO: enable database video lookup
       $bw.models.video.find().then(function(videos) {
         console.log(videos);
 
-        videosFromDB = videos;
-
         controller.videos = [];
 
-        videosFromDB.forEach(function(video){
+        videos.forEach(function(video){
 
-          video = {
+          controller.videos.push({
             sources:[
-              {src: $sce.trustAsResourceUrl(video.url + '?apikey=' + $apiConfig.apiKey), type: video.type, name: video.name},
+              {
+                src: $sce.trustAsResourceUrl(video.url + '?apikey=' + $apiConfig.apiKey),
+                type: video.type,
+                name: video.name,
+                tags: video.tags.map(function(item){
+                  return item.name;
+                })
+              },
             ]
-          };
-
-          controller.videos.push(video);
+          });
 
         });
         console.log(controller.videos);
@@ -80,7 +71,10 @@ angular.module('bwTubeDemoApp')
             url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
           }
         };
+
+        controller.setVideo(0);
       });
+
     };
 
     controller.getVideos();
@@ -88,8 +82,13 @@ angular.module('bwTubeDemoApp')
     controller.setVideo = function(index) {
       controller.API.stop();
       controller.currentVideo = index;
+
       controller.config.sources = controller.videos[index].sources;
       $timeout(controller.API.play.bind(controller.API), 100);
+
+      $scope.playing = controller.videos[index].sources[0];
+
+      console.log('***PLAYING***', $scope.playing);
     };
 
   }]);

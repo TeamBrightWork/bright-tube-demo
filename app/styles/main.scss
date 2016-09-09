@@ -91,7 +91,7 @@ body {
 }
 
 .navbar {
-  background-color: darkslategray;
+  background-color: #333333;
   img {
     height: 30px;
   }
@@ -99,4 +99,11 @@ body {
 
 .navbar-default .navbar-nav > li > a {
   color: #fff;
+}
+
+.panel-default {
+  .panel-heading {
+    background-color: #333333;
+    color: #00A000;
+  }
 }
