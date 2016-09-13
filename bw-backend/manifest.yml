@@ -11,7 +11,7 @@ models:
         dominant: true
   tag:
     attributes:
-      name: 'string'
+      name: string
       videos:
         collection: video
-        via: 'tags'        
+        via: 'tags'

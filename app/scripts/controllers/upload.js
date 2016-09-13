@@ -8,24 +8,25 @@
  * Controller of the bwTubeDemoApp
  */
 angular.module('bwTubeDemoApp')
-  .controller('UploadCtrl', ['$scope', 'FileUploader', '$bw', '$sce', '$apiConfig', function ($scope, FileUploader, $bw, $sce, $apiConfig) {
+  .controller('UploadCtrl', ['$scope', 'FileUploader', '$bw', '$sce', '$apiConfig', 'lodash', function ($scope, FileUploader, $bw, $sce, $apiConfig, lodash) {
 
     $scope.tags = [];
+    $scope.tagNames = [];
+    $scope.selectedTags = [];
     var uploaded = {};
 
     $scope.fileAdded = false;
     $scope.isUploading = false;
     $scope.uploaded = false;
 
-    var headers = {
-      apikey: $apiConfig.apiKey,
-      name: ''
-    };
-
+    // //TODO: (1) Enable upload video to object storage
     var uploader = $scope.uploader = new FileUploader({
-      url: $apiConfig.appUrl + '/api/brighttube/storage',
+      url: 'http://brighttube.brightwork.dev:8000/api/brighttube/storage',
       alias: 'object',
-      headers: headers,
+      headers: {
+        apikey: $apiConfig.apiKey,
+        name: ''
+      },
       removeAfterUpload: false,
       method: 'POST',
       autoUpload: true
@@ -37,50 +38,51 @@ angular.module('bwTubeDemoApp')
 
     var saveVideoData = function(videoData){
 
-      console.log(videoData);
-
-      //TODO: enable saving video
-       return $bw.models.video.create(videoData).then(function(newVideo){
-         console.log('VIDEO Added to DB: ', newVideo);
-
-         return newVideo;
-       });
+      //TODO: (2): enable saving video
+      return $bw.models.video.create(videoData).then(function(newVideo){
+        console.log('VIDEO Added to DB: ', newVideo);
+        return newVideo;
+      });
 
     };
 
     $scope.addTag = function(){
+      console.log('**ADD TAG**', $scope.tag);
 
+      var selectedTag = lodash.find($scope.tags, { name: $scope.tag }) || { name: $scope.tag };
 
-       // TODO: Store tag data in DB using uploadedVideoID
-       $bw.models.video.tags.add(uploaded.id, { name: $scope.tag }).then(function(updatedVideo){
-         console.log('TAG Added to DB: ', updatedVideo);
-         $scope.tags = updatedVideo.tags;
-         $scope.tag = '';
-         $scope.$apply();
-       });
+       // TODO: (3) Enable tagging videos and saving
+      $bw.models.video.tags.add(uploaded.id, selectedTag).then(function(updatedVideo){
+        console.log('TAG Added to DB: ', updatedVideo);
+        $scope.selectedTags = updatedVideo.tags;
 
+        if (!selectedTag.id) {
+          $scope.tags.push(lodash.find($scope.selectedTags, selectedTag));
+        }
+
+        $scope.tag = '';
+        $scope.$apply();
+      });
+
+      $scope.tag = '';
 
     };
 
     $scope.removeTag = function(name){
-      console.log('this',this.tag)
-
       var toRemove = this.tag;
 
-      $scope.tags.forEach(function(tag, idx){
-        console.log(tag);
-        if(tag.name === toRemove.name){
-
-          // TODO: Remove tag data from DB
-
-           $bw.models.video.tags.remove(uploaded.id, tag.id).then(function(newTag){
-             console.log('TAG Added to DB: ', newTag);
-           });
-
-          $scope.tags.splice(idx, 1);
-        }
+      //TODO: (4) Enable removing video tags
+      $bw.models.video.tags.remove(uploaded.id, tag.id).then(function(){
+        lodash.remove($scope.selectedTags, { name: toRemove });
       });
+
     };
+
+    // TODO: (5) Enable loading tags from database
+    $bw.models.tag.find().then(function(tags){
+      $scope.tags = lodash.map(tags, function(item) { return { id: item.id, name: item.name }; });
+      $scope.tagNames = lodash.map(tags, 'name');
+    });
 
     uploader.onAfterAddingFile = function(item) {
       console.info('onAfterAddingFile', item);

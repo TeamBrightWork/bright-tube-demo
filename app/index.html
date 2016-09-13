@@ -9,6 +9,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.css" />
+    <link rel="stylesheet" href="bower_components/allmighty-autocomplete/style/autocomplete.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -41,12 +42,12 @@
               <li>
                     <form class="navbar-form" role="search">
                       <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Search">
+                        <autocomplete ng-model="searchText" data="searchTags"></autocomplete>
                       </div>
-                      <button type="submit" class="btn btn-default glyphicon glyphicon-search"></button>
+                      <button type="submit" class="btn btn-default btn-sm glyphicon glyphicon-search" ng-click="search()" ></button>
+                      <button class="btn btn-warning btn-sm" ng-click="go('/upload')">Upload</button>
                     </form>
               </li>
-              <li><a class="btn btn-small" ng-href="#/upload">Upload</a></li>
             </ul>
           </div>
         </div>
@@ -95,6 +96,8 @@
     <script src="bower_components/bw-angular-sdk/dist/index.js"></script>
     <script src="bower_components/bw-js-sdk/dist/index.js"></script>
     <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script src="bower_components/allmighty-autocomplete/script/autocomplete.js"></script>
+    <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

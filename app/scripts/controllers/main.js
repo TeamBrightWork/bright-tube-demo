@@ -8,7 +8,7 @@
  * Controller of the bwTubeDemoApp
  */
 angular.module('bwTubeDemoApp')
-  .controller('VideoCtrl', ['$scope', '$sce', '$timeout', '$bw', '$apiConfig' , function ($scope, $sce, $timeout, $bw, $apiConfig) {
+  .controller('VideoCtrl', ['$rootScope', '$scope', '$sce', '$timeout', '$bw', '$apiConfig', 'lodash', function ($rootScope, $scope, $sce, $timeout, $bw, $apiConfig, lodash) {
 
     var controller = this;
     controller.state = null;
@@ -33,31 +33,32 @@ angular.module('bwTubeDemoApp')
       $scope.videos.shift();
     };
 
-    controller.getVideos = function() {
+    controller.setVideo = function(index) {
+      controller.API.stop();
+      controller.currentVideo = index;
 
-      // TODO: enable database video lookup
-      $bw.models.video.find().then(function(videos) {
-        console.log(videos);
+      controller.config.sources = controller.videos[index].sources;
+      $timeout(controller.API.play.bind(controller.API), 100);
 
-        controller.videos = [];
+      $scope.playing = controller.videos[index].sources[0];
+    };
 
-        videos.forEach(function(video){
+    var mapVideos = function(results) {
+      return results.then(function (videos) {
 
-          controller.videos.push({
-            sources:[
+        controller.videos = lodash.map(videos, function (video) {
+          return {
+            sources: [
               {
                 src: $sce.trustAsResourceUrl(video.url + '?apikey=' + $apiConfig.apiKey),
                 type: video.type,
                 name: video.name,
-                tags: video.tags.map(function(item){
-                  return item.name;
-                })
-              },
+                tags: lodash.map(video.tags, 'name')
+              }
             ]
-          });
-
+          }
         });
-        console.log(controller.videos);
+
         $scope.videos = controller.videos;
         $scope.$apply();
 
@@ -70,25 +71,28 @@ angular.module('bwTubeDemoApp')
           theme: {
             url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
           }
-        };
+        }
 
         controller.setVideo(0);
       });
-
     };
 
-    controller.getVideos();
+    // TODO: (1) enable database video lookup
+    mapVideos($bw.models.video.find());
 
-    controller.setVideo = function(index) {
-      controller.API.stop();
-      controller.currentVideo = index;
+    $rootScope.search = function() {
+      var query = $bw.query().equalTo('name', $rootScope.searchText);
 
-      controller.config.sources = controller.videos[index].sources;
-      $timeout(controller.API.play.bind(controller.API), 100);
+      mapVideos($bw.models.tag.find(query).then(function(tags){
+        console.log(tags);
+        return tags[0].videos;
+      }));
+    }
 
-      $scope.playing = controller.videos[index].sources[0];
 
-      console.log('***PLAYING***', $scope.playing);
-    };
+    $bw.models.tag.find().then(function(tags){
+      $rootScope.searchTags = lodash.map(tags, 'name');
+    });
+
 
   }]);

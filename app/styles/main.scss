@@ -105,5 +105,12 @@ body {
   .panel-heading {
     background-color: #333333;
     color: #00A000;
+
+    h3 {
+      span {
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+    }
   }
 }

@@ -22,10 +22,12 @@ angular
     'com.2fdevs.videogular.plugins.controls',
     'com.2fdevs.videogular.plugins.poster',
     'com.2fdevs.videogular.plugins.buffering',
+    'autocomplete',
+    'ngLodash',
     'brightwork'
   ])
   .constant('$apiConfig', {
-    apiKey: '1970e53aad964fe3bba3b3d3b1b7c3c7',
+    apiKey: '663a1a32e5324c2f920f54773d128a76',
     appName:'brighttube',
     apiUrl: 'http://api.brightwork.dev',
     appUrl: 'http://brighttube.brightwork.dev:8000'
@@ -63,5 +65,11 @@ angular
     $bw.appName($apiConfig.appName);
     $bw.apiUrl($apiConfig.apiUrl);
     $bw.appUrl($apiConfig.appUrl);
+  }])
+  .run(['$rootScope', '$location', function($rootScope, $location){
+    $rootScope.go = function(route) {
+      console.log('GO', route);
+      $location.path(route);
+    }
   }]);
 

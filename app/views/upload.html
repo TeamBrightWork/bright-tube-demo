@@ -42,7 +42,6 @@
 
   </div>
 
-  <!-- ng-show="uploaded" -->
   <div ng-show="uploaded" class="col-md-12">
 
     <div class="panel panel-default">
@@ -55,14 +54,15 @@
 
         <form ng-submit="addTag()" class="col-md-4 form-group">
           <h3>Add Tags</h3>
-          <input class="form-control" type="text" ng-model="tag"/>
-          <input class="form-control" value="Add Tag" type="submit"/>
+          <autocomplete ng-model="tag" data="tagNames"></autocomplete>
+
+          <input class="form-control btn btn-primary" value="Add Tag" type="submit"/>
         </form>
 
         <div class="col-md-8">
           <h3>Tags to Add</h3>
-          <div ng-repeat="tag in tags">
-            <a ng-click="removeTag()" class="col-md-3 btn btn-default glyphicon glyphicon-plus" name="{{tag.name}}"> {{tag.name}}</a>
+          <div ng-repeat="tag in selectedTags">
+            <a ng-click="removeTag()" class="col-md-3 btn btn-default" name="{{tag.name}}"><span class="pull-left glyphicon glyphicon-minus"></span> {{tag.name}}</a>
           </div>
         </div>
 
