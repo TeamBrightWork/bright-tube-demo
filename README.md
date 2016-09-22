@@ -13,6 +13,11 @@ version 0.15.1.*
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/W5mVluoJBuo" frameborder="0" allowfullscreen></iframe>
 
+## Clone the project
+```
+git clone https://github.com/TeamBrightWork/bright-tube-demo.git
+```
+
 ## Install dependencies
 ```
 npm install && bower install
