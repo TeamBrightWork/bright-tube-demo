@@ -21,7 +21,7 @@ angular.module('bwTubeDemoApp')
 
     // //TODO: (1) Enable upload video to object storage
     var uploader = $scope.uploader = new FileUploader({
-      url: 'http://brighttube.brightwork.dev:8000/api/brighttube/storage',
+      url: $apiConfig.appUrl +  '/api/brighttube/storage',
       alias: 'object',
       headers: {
         apikey: $apiConfig.apiKey,

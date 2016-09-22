@@ -27,10 +27,10 @@ angular
     'brightwork'
   ])
   .constant('$apiConfig', {
-    apiKey: '663a1a32e5324c2f920f54773d128a76',
+    apiKey: 'a78f0322b3dc4a3cbb50f320bee3f55f',
     appName:'brighttube',
-    apiUrl: 'http://api.brightwork.dev',
-    appUrl: 'http://brighttube.brightwork.dev:8000'
+    apiUrl: 'http://api.brightwork.io',
+    appUrl: 'http://brighttube.bwapps.io'
   })
   .config(function ($routeProvider) {
 
