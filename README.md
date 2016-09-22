@@ -24,6 +24,8 @@ npm install && bower install
 ```
 
 ## Deploy the BrightWork API back-end
+If you don't alrady have an account, signup for you FREE API key here: http://brightwork.io.
+
 Edit the manifest.yaml in the ./bw-backend folder. Change the application name.
 
 Then using the BW CLI:
@@ -52,3 +54,6 @@ Edit your ./app.js file and put in your app name and API key.
 
 Run `grunt` for building and `grunt serve` for preview.
 
+## The docs
+
+You can find the AngularJS docs here: https://github.com/TeamBrightWork/bw-angular-sdk
