@@ -1,0 +1,17 @@
+name: BrightTube
+models:
+  video:
+    attributes:
+      name: string
+      url: string
+      type: string
+      tags:
+        collection: 'tag'
+        via: 'videos'
+        dominant: true
+  tag:
+    attributes:
+      name: string
+      videos:
+        collection: video
+        via: 'tags'

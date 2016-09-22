@@ -8,6 +8,8 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/videogular-themes-default/videogular.css" />
+    <link rel="stylesheet" href="bower_components/allmighty-autocomplete/style/autocomplete.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -22,38 +24,43 @@
     <!-- Add your site or application content here -->
     <div class="header">
       <div class="navbar navbar-default" role="navigation">
-        <div class="container">
+        <div class="container-fluid">
           <div class="navbar-header">
 
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">bwTubeDemo</a>
+            <a class="navbar-brand" href="#/"><img src="../images/logo.png" alt="BrightWork Logo"></a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                    <form class="navbar-form" role="search">
+                      <div class="form-group">
+                        <autocomplete ng-model="searchText" data="searchTags"></autocomplete>
+                      </div>
+                      <button type="submit" class="btn btn-default btn-sm glyphicon glyphicon-search" ng-click="search()" ></button>
+                      <button class="btn btn-warning btn-sm" ng-click="go('/upload')">Upload</button>
+                    </form>
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
     <div ng-view=""></div>
     </div>
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p><span class="glyphicon glyphicon-heart"></span> from the BrightWork team</p>
       </div>
     </div>
 
@@ -80,13 +87,24 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
+    <script src="bower_components/videogular/videogular.js"></script>
+    <script src="bower_components/videogular-controls/vg-controls.js"></script>
+    <script src="bower_components/videogular-poster/vg-poster.js"></script>
+    <script src="bower_components/videogular-overlay-play/vg-overlay-play.js"></script>
+    <script src="bower_components/videogular-buffering/vg-buffering.js"></script>
+    <script src="bower_components/bw-angular-sdk/dist/index.js"></script>
+    <script src="bower_components/bw-js-sdk/dist/index.js"></script>
+    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+    <script src="bower_components/allmighty-autocomplete/script/autocomplete.js"></script>
+    <script src="bower_components/ng-lodash/build/ng-lodash.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/upload.js"></script>
         <!-- endbuild -->
 </body>
 </html>

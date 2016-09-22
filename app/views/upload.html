@@ -1,0 +1,73 @@
+<div class="container">
+<div class="row" nv-file-drop="" uploader="uploader">
+
+  <div ng-show="!fileAdded" class="col-md-12 text-center content-center">
+
+    <div ng-show="uploader.isHTML5">
+      <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+        <button class="btn btn-lg glyphicon glyphicon-cloud-upload" ng-click="clickUpload()"></button>
+        <input id="upload" type="file" nv-file-select="" uploader="uploader" style="visibility: hidden;"/>
+        <h3>Select File to Upload</h3>
+        <h5>or</h5>
+        <h5>Drop File Here</h5>
+      </div>
+    </div>
+
+  </div>
+
+  <div ng-show="isUploading" class="col-md-12 well" style="margin-bottom: 40px">
+
+    <h3>File Uploading...</h3>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th width="50%">Name</th>
+        <th ng-show="uploader.isHTML5">Size</th>
+        <th ng-show="uploader.isHTML5">Progress</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="item in uploader.queue">
+        <td><strong>{{ item.file.name }}</strong></td>
+        <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+        <td ng-show="uploader.isHTML5">
+          <div class="progress" style="margin-bottom: 0;">
+            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div ng-show="uploaded" class="col-md-12">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="pane-title">Preview & Tag</h3>
+      </div>
+      <div class="panel-body">
+
+        <video style="width: 100%;" ng-src="{{uploaded}}" controls></video>
+
+        <form ng-submit="addTag()" class="col-md-4 form-group">
+          <h3>Add Tags</h3>
+          <autocomplete ng-model="tag" data="tagNames"></autocomplete>
+
+          <input class="form-control btn btn-primary" value="Add Tag" type="submit"/>
+        </form>
+
+        <div class="col-md-8">
+          <h3>Tags to Add</h3>
+          <div ng-repeat="tag in selectedTags">
+            <a ng-click="removeTag()" class="col-md-3 btn btn-default" name="{{tag.name}}"><span class="pull-left glyphicon glyphicon-minus"></span> {{tag.name}}</a>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+</div>
+</div>
