@@ -27,10 +27,10 @@ angular
     'brightwork'
   ])
   .constant('$apiConfig', {
-    apiKey: 'a78f0322b3dc4a3cbb50f320bee3f55f',
-    appName:'brighttube',
+    apiKey: 'YOUR-API-KEY',
+    appName:'YOUR-APP',
     apiUrl: 'http://api.brightwork.io',
-    appUrl: 'http://brighttube.bwapps.io'
+    appUrl: 'http://YOUR-APP.bwapps.io'
   })
   .config(function ($routeProvider) {
 
@@ -70,6 +70,6 @@ angular
     $rootScope.go = function(route) {
       console.log('GO', route);
       $location.path(route);
-    }
+    };
   }]);
 

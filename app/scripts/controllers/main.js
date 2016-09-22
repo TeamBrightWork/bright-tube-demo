@@ -16,7 +16,7 @@ angular.module('bwTubeDemoApp')
     controller.currentVideo = 0;
     controller.videos = [];
 
-    $scope.playing = {}
+    $scope.playing = {};
 
     controller.onPlayerReady = function(API) {
       controller.API = API;
@@ -27,7 +27,9 @@ angular.module('bwTubeDemoApp')
 
       controller.currentVideo++;
 
-      if (controller.currentVideo >= controller.videos.length) controller.currentVideo = 0;
+      if (controller.currentVideo >= controller.videos.length) {
+        controller.currentVideo = 0;
+      }
 
       controller.setVideo(controller.currentVideo);
       $scope.videos.shift();
@@ -56,22 +58,22 @@ angular.module('bwTubeDemoApp')
                 tags: lodash.map(video.tags, 'name')
               }
             ]
-          }
+          };
         });
 
         $scope.videos = controller.videos;
         $scope.$apply();
 
         controller.config = {
-          preload: "none",
+          preload: 'none',
           autoHide: false,
           autoHideTime: 3000,
           autoPlay: false,
           sources: controller.videos[0].sources,
           theme: {
-            url: "http://www.videogular.com/styles/themes/default/latest/videogular.css"
+            url: 'http://www.videogular.com/styles/themes/default/latest/videogular.css'
           }
-        }
+        };
 
         controller.setVideo(0);
       });
@@ -87,7 +89,7 @@ angular.module('bwTubeDemoApp')
         console.log(tags);
         return tags[0].videos;
       }));
-    }
+    };
 
 
     $bw.models.tag.find().then(function(tags){

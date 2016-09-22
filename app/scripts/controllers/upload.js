@@ -68,11 +68,11 @@ angular.module('bwTubeDemoApp')
 
     };
 
-    $scope.removeTag = function(name){
+    $scope.removeTag = function(){
       var toRemove = this.tag;
 
       //TODO: (4) Enable removing video tags
-      $bw.models.video.tags.remove(uploaded.id, tag.id).then(function(){
+      $bw.models.video.tags.remove(uploaded.id, toRemove.id).then(function(){
         lodash.remove($scope.selectedTags, { name: toRemove });
       });
 
@@ -105,12 +105,12 @@ angular.module('bwTubeDemoApp')
       };
 
       saveVideoData(videoData).then(function(newVideo){
-        console.log("Video Stored with Id: ", newVideo);
+        console.log('Video Stored with Id: ', newVideo);
         uploaded.id = newVideo.id;
       });
 
       $scope.isUploading = false;
-      $scope.uploaded = $sce.trustAsResourceUrl(videoData.url + "?apikey=" + $apiConfig.apiKey);
+      $scope.uploaded = $sce.trustAsResourceUrl(videoData.url + '?apikey=' + $apiConfig.apiKey);
 
     };
 
@@ -119,7 +119,7 @@ angular.module('bwTubeDemoApp')
 
       // TODO: remove on once wired up to object storage
       $scope.isUploading = false;
-      $scope.uploaded = $sce.trustAsResourceUrl("http://static.videogular.com/assets/videos/videogular.mp4");
+      $scope.uploaded = $sce.trustAsResourceUrl('http://static.videogular.com/assets/videos/videogular.mp4');
     };
 
   }]);
